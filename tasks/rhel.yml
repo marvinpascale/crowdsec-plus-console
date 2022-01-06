@@ -1,0 +1,32 @@
+---
+# tasks file for crowdsec-plus-console
+
+- name: RHEL download crowdsec repo install script
+  get_url: url=https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.rpm.sh dest=/root/crowdsecinstaller.sh mode=0755
+  become: yes
+
+- name: RHEL execute crowdsec repo install script
+  shell: /root/crowdsecinstaller.sh
+  become: yes
+
+- name: RHEL remove the crowdsec repo install script
+  file: path=/root/crowdsecinstaller.sh state=absent
+  become: yes
+
+- name: RHEL adds crowdsec and bouncer packages
+  yum:
+    name: "{{ item }}"
+    state: present
+  become: yes
+  loop:
+    - crowdsec
+    - crowdsec-firewall-bouncer-iptables
+
+- name: RHEL install whitelist-good-actors collection
+  shell: cscli collections install crowdsecurity/whitelist-good-actors
+  when: crowdsec_whitelist_good_actors | bool
+  become: yes
+
+- name: RHEL enrolls this machine to crowdsec console
+  command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
+  become: yes

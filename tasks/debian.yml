@@ -1,0 +1,38 @@
+---
+# tasks file for crowdsec-plus-console
+
+- name: DEBIAN Run the equivalent of "apt-get update" as a separate step
+  apt:
+    update_cache: yes
+
+- name: DEBIAN download crowdsec repo install script
+  get_url: url=https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh dest=/root/crowdsecinstaller.sh mode=0755
+  become: yes
+
+- name: DEBIAN execute crowdsec repo install script
+  shell: /root/crowdsecinstaller.sh
+  become: yes
+
+- name: DEBIAN remove the crowdsec repo install script
+  file: path=/root/crowdsecinstaller.sh state=absent
+
+- name: DEBIAN adds crowdsec package
+  apt:
+    name: crowdsec
+    state: present
+  become: yes
+
+- name: DEBIAN adds crowdsec-firewall-bouncer-iptables package
+  apt:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: yes
+
+- name: DEBIAN install whitelist-good-actors collection
+  shell: cscli collections install crowdsecurity/whitelist-good-actors
+  when: crowdsec_whitelist_good_actors | bool
+  become: yes
+
+- name: DEBIAN enrolls this machine to crowdsec console
+  command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
+  become: yes
