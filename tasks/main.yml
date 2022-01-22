@@ -11,3 +11,13 @@
   import_tasks: rhel.yml
   when: (ansible_facts['os_family'] == "RedHat")
 -
+  name: Start and enable services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  loop:
+    - crowdsec
+    - crowdsec-firewall-bouncer
+
