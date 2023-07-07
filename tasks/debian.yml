@@ -4,6 +4,7 @@
 - name: DEBIAN Run the equivalent of "apt-get update" as a separate step
   apt:
     update_cache: yes
+  become: yes
 
 - name: DEBIAN download crowdsec repo install script
   get_url: url=https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh dest=/root/crowdsecinstaller.sh mode=0755
@@ -15,6 +16,7 @@
 
 - name: DEBIAN remove the crowdsec repo install script
   file: path=/root/crowdsecinstaller.sh state=absent
+  become: yes
 
 - name: DEBIAN adds crowdsec package
   apt:
@@ -36,3 +38,4 @@
 - name: DEBIAN enrolls this machine to crowdsec console
   command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
   become: yes
+  when: enroll is true

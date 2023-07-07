@@ -30,3 +30,4 @@
 - name: RHEL enrolls this machine to crowdsec console
   command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
   become: yes
+  when: enroll is true

@@ -1,12 +1,10 @@
 ---
 - fail:
     msg: "bailing out, this role requires 'crowdsec_enroll_key'  and 'crowdsec_enroll_name' to be defined." 
-  when:
-  - crowdsec_enroll_key is not defined
-  - crowdsec_enroll_name is not defined
+  when: (enroll is true) and ((crowdsec_enroll_key is not defined) or (crowdsec_enroll_name is not defined))
 -
   import_tasks: debian.yml
-  when: (ansible_facts['distribution'] == "Debian")
+  when: (ansible_facts['os_family'] == "Debian")
 -
   import_tasks: rhel.yml
   when: (ansible_facts['os_family'] == "RedHat")
