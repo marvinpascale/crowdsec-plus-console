@@ -1,5 +1,11 @@
 ---
-- hosts: localhost
-  remote_user: root
-  roles:
-    - crowdsec-plus-console
+- 
+  name: install crowsec, bouncer and enroll :)
+  hosts:
+    - debian
+    - rhel
+  remote_user: vagrant
+  vars:
+    - crowdsec_enroll_key: ""
+    - crowdsec_enroll_name: "{{ ansible_hostname }}"
+    - crowdsec_whitelist_good_actors: true

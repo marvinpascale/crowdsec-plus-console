@@ -1,2 +1,6 @@
-localhost
+[rhel]
+redhat ansible_host=localhost enroll=true
+
+[debian]
+debian ansible_host=localhost enroll=false
 
