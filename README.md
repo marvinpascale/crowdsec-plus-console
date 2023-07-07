@@ -5,7 +5,7 @@ This role adds the CrowdSec PPA, then proceeds to install crowdsec per https://c
 along with crowdsec-firewall-bouncer. Optionally, it installs the
 whitelist-good-actors collection. Finally, it enrolls it to the Console.
 
-Supported platforms: Debian & Ubuntu
+Supported platforms: Debian based & RHEL based
 
 Requirements
 ------------
@@ -33,6 +33,15 @@ Including an example of how to use your role (for instance, with variables passe
            crowdsec_enroll_name: "{{ ansible_hostname }}"
            crowdsec_whitelist_good_actors: true
 
+Example inventory
+----------------
+
+[rhel]
+redhat ansible_host=localhost enroll=true
+
+[debian]
+debian ansible_host=localhost enroll=false
+
 License
 -------
 
@@ -41,4 +50,4 @@ MIT
 Author Information
 ------------------
 
-Mail buanzo at buanzo com ar
+Marvin
