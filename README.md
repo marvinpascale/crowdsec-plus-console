@@ -36,11 +36,11 @@ Including an example of how to use your role (for instance, with variables passe
 Example inventory
 ----------------
 
-[rhel]
-redhat ansible_host=localhost enroll=true
+    [rhel]
+    redhat ansible_host=localhost enroll=true
 
-[debian]
-debian ansible_host=localhost enroll=false
+    [debian]
+    debian ansible_host=localhost enroll=false
 
 License
 -------
